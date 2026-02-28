@@ -4,7 +4,7 @@
 
 namespace ds {
 
-// Dynamic array.
+// Dynamic array
 template <typename T> 
 class dynamic_array {
     T* _data;
@@ -26,7 +26,7 @@ public:
     inline const T& back() const { return _data[_size-1]; }
     inline const T* data() const { return _data; }
 
-    // Capacity.
+    // Capacity
     inline bool empty() const {  return _size == 0; }
     inline size_t size() const { return _size; }
     size_t max_size() const { return _capacity; }
@@ -46,14 +46,14 @@ dynamic_array<T>::~dynamic_array() {
 
 template <typename T>
 void dynamic_array<T>::reserve(size_t capacity) {
-    // Allocate new space in memory.
+    // Allocate new space in memory
     T* new_data = new T[capacity];
 
     // Copy data.
     size_t min  = _size < _capacity ? _size : _capacity;
     if (min > 0) std::memcpy(new_data, _data, min * sizeof(T));
 
-    // Delete old pointer, and point to new pointer,
+    // Delete old pointer, and point to new pointer
     delete[] _data;
     _data = new_data;
 
@@ -93,4 +93,4 @@ void dynamic_array<T>::push_back(const T& item) {
 
 
 
-}   // Namespace ds.
+}   // namespace ds
