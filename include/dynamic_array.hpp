@@ -4,13 +4,12 @@
 
 namespace ds {
 
-// Dynamic array
 template <typename T> 
 class dynamic_array {
     T* _data;
     size_t _size;
     size_t _capacity;
-    
+
 public:
     // Constructor
     dynamic_array() : _data(nullptr), _size(), _capacity() {}
@@ -37,6 +36,25 @@ public:
     void clear();
     void push_back(const T& item);
     inline void pop_back() { _size--; }
+
+    // Iterator class
+    class iterator {
+        T* _pointer;
+
+    public:
+        explicit iterator(T* pointer) : _pointer(pointer) {}
+        iterator& operator=(const iterator&) = default;
+        inline T& operator*() const { return *_pointer; }
+
+        inline iterator& operator++() { _pointer++; return *this; }
+        inline iterator operator++(int) { iterator retval = *this; ++(*this); return retval; }
+        inline bool operator==(const iterator& other) const { return _pointer == other._pointer; }
+        inline bool operator!=(const iterator& other) const { return _pointer != other._pointer; }
+    };
+
+    // Iterators
+    iterator begin() { return iterator(_data); }
+    iterator end() { return iterator(_data + _size); }
 };
 
 template <typename T>
@@ -57,7 +75,7 @@ void dynamic_array<T>::reserve(size_t capacity) {
     delete[] _data;
     _data = new_data;
 
-    // Change capacity.
+    // Change capacity
     _capacity = capacity;
 }
 
