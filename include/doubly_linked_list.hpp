@@ -20,9 +20,13 @@ private:
     Node* _last;
     size_t _size;
 
+protected:
+    void push_first_data(const T& data);
+
 public:
     doubly_linked_list() : _first(nullptr), _last(nullptr), _size(0) {}
-    doubly_linked_list(const T& data) : _first(new Node(nullptr, nullptr, data)), _size(1) {}
+    doubly_linked_list(const T& data) 
+    : _first(new Node(nullptr, nullptr, data)), _last(_first), _size(1) {}
     ~doubly_linked_list();
 
     // Element access
@@ -47,16 +51,26 @@ doubly_linked_list<T>::~doubly_linked_list() {
 }
 
 template <typename T>
+void doubly_linked_list<T>::push_first_data(const T& data) {
+    Node* node = new Node(nullptr, nullptr, data);
+    _first = node;
+    _last = node;
+}
+
+
+template <typename T>
 void doubly_linked_list<T>::push_front(const T& data) {
-    Node* new_first = new Node(nullptr, _first, data);
-    _first = new_first;
+    if (_size) _first = new Node(nullptr, _first, data);
+    else this->push_first_data(data);
+
     _size++;
 }
 
 template <typename T>
 void doubly_linked_list<T>::push_back(const T& data) {
-    Node* new_last = new Node(_last, nullptr, data);
-    _last = new_last;
+    if (_size) _last = new Node(_last, nullptr, data);
+    else this->push_first_data(data);
+
     _size++;
 }
 
