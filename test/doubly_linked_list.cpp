@@ -2,6 +2,42 @@
 #include <cassert>
 #include <iostream>
 
+void iterator_test() {
+    // Create and populate array. 
+    ds::doubly_linked_list<int> arr;
+    for (int i = 0; i < 10; ++i) arr.push_back(i);
+
+    // Test population with iterator
+    {
+        ds::doubly_linked_list<int>::iterator it = arr.begin();
+        for (int i = 0; i < 10; ++i) {
+            std::cout << "array[" << i << "] == " << *it << std::endl;
+            assert(i == *it);
+            ++it;
+        }
+    }
+
+    // Test population with iterator
+    {
+        ds::doubly_linked_list<int>::iterator it = arr.begin();
+        int counter = 0;
+        for (; it != arr.end(); ++it) {
+            assert(counter == *it);
+            ++counter;
+        }
+    }
+
+    // Increment all items of the array by 10 using iterator
+    for (auto it = arr.begin(); it != arr.end(); ++it) *it += 10;
+
+    // Check if the items have been incremented using iterators
+    int counter = 10;
+    for (auto it = arr.begin(); it != arr.end(); ++it) {
+        assert(counter == *it);
+        ++counter;
+    }
+}
+
 void push_from_one() {
     ds::doubly_linked_list<int> list(5);
     assert(list.size() == 1);
@@ -40,6 +76,7 @@ void push_from_nothing() {
 }
 
 int main() {
+    iterator_test();
     push_from_one();
     push_from_nothing();
     return 0;
