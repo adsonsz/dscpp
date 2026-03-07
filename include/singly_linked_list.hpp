@@ -35,6 +35,25 @@ public:
     void push_front(const T& data);
     void pop_front();
     void clear();
+
+    // Iterator class
+    class iterator {
+        Node* _pointer;
+
+    public:
+        explicit iterator(T* pointer) : _pointer(pointer) {}
+        iterator& operator=(const iterator&) = default;
+        inline T& operator*() const { return _pointer->data; }
+
+        inline iterator& operator++() { _pointer = _pointer->next; return *this; }
+        inline iterator operator++(int) { iterator retval = *this; ++(*this); return retval; }
+        inline bool operator==(const iterator& other) const { return _pointer == other._pointer; }
+        inline bool operator!=(const iterator& other) const { return _pointer != other._pointer; }
+    };
+
+    // Iterators
+    iterator begin() { return iterator(_first); }
+    iterator end() { return iterator(nullptr); }
 };
 
 template <typename T>
